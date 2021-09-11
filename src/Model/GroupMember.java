@@ -14,16 +14,14 @@ import java.io.Serializable;
 public class GroupMember implements Serializable{
     private int id;
     private String timeJoined;
-    private Group group;
     private Player player;
 
     public GroupMember() {
     }
 
-    public GroupMember(int id, String timeJoined, Group group, Player player) {
+    public GroupMember(int id, String timeJoined, Player player) {
         this.id = id;
         this.timeJoined = timeJoined;
-        this.group = group;
         this.player = player;
     }
 
@@ -41,14 +39,6 @@ public class GroupMember implements Serializable{
 
     public void setTimeJoined(String timeJoined) {
         this.timeJoined = timeJoined;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
     }
 
     public Player getPlayer() {
