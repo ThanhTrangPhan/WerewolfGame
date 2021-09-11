@@ -19,19 +19,20 @@ public class PlayerDAO extends DAO {
 
     public ArrayList<Player> searchPlayers(String key) {
         ArrayList<Player> result = new ArrayList<>();
-        String sql = "SELECT * FROM tblPlayer WHERE name LIKE ?";
+        String sql = "SELECT * FROM tblPlayer WHERE tblPlayer.name LIKE ? ";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + key + "%");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Player client = new Player();
-                client.setId(rs.getInt("id"));
-                client.setName(rs.getString("name"));
-                client.setPassword(rs.getString("password"));
-                client.setPhone(rs.getString("phone"));
-                client.setStatus(rs.getString("status"));
+                Player p = new Player();
+                p.setId(rs.getInt("id"));
+                p.setName(rs.getString("name"));
+                p.setPassword(rs.getString("password"));
+                p.setPhone(rs.getString("phone"));
+                p.setStatus(rs.getString("status"));
+                result.add(p);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,12 +49,13 @@ public class PlayerDAO extends DAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Player client = new Player();
-                client.setId(rs.getInt("id"));
-                client.setName(rs.getString("name"));
-                client.setPassword(rs.getString("password"));
-                client.setPhone(rs.getString("phone"));
-                client.setStatus(rs.getString("status"));
+                Player p = new Player();
+                p.setId(rs.getInt("id"));
+                p.setName(rs.getString("name"));
+                p.setPassword(rs.getString("password"));
+                p.setPhone(rs.getString("phone"));
+                p.setStatus(rs.getString("status"));
+                result.add(p);
             }
         } catch (Exception e) {
             e.printStackTrace();
