@@ -6,11 +6,9 @@
 package Controller;
 
 import static Controller.DAO.conn;
-import Model.GameMatch;
 import Model.PlayerStat;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 /**
  *

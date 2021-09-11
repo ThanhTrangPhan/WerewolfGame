@@ -5,15 +5,18 @@
         <group>
             <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/View/main.java</file>
             <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/RecordDAO.java</file>
-            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/Record.java</file>
             <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/GroupMemberDAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/PlayerStat.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/PlayerStatDAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/GameMatch.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/Group.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/GameMatchDAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/Record.java</file>
             <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/Player.java</file>
             <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/GroupDAO.java</file>
             <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/PlayerDAO.java</file>
             <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/DAO.java</file>
-            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/GameMatch.java</file>
-            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/PlayerStatusDAO.java</file>
-            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/GameMatchDAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/GroupMember.java</file>
         </group>
     </open-files>
 </project-private>

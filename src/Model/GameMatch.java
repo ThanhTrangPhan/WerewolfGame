@@ -25,7 +25,8 @@ public class GameMatch implements Serializable{
     public GameMatch() {
     }
 
-    public GameMatch(int id, int maxPlayer, String type, String description, String timeStarted, String timeEnded, String winnerSide, List<Record> record) {
+    public GameMatch(int id, int maxPlayer, String type, String description, String timeStarted, 
+            String timeEnded, String winnerSide, List<Record> record) {
         this.id = id;
         this.maxPlayer = maxPlayer;
         this.type = type;

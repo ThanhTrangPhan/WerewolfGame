@@ -28,9 +28,11 @@ public class GameMatchDAO extends DAO {
 
     //update the record in 
     public boolean updateGameMatch(GameMatch match) {
-        String sqlUpdateMatch = "INSERT INTO tblRecord(tblRecord.role,tblRecord.status,tblRecord.playerID,tblRecord.groupMemberID,tblRecord.gameMatchID) "
+        String sqlUpdateMatch = "INSERT INTO tblRecord(tblRecord.role,tblRecord.status,"
+                + "tblRecord.playerID,tblRecord.groupMemberID,tblRecord.gameMatchID) "
                 + "VALUES (?,?,?,?,? )";
-        String sqlUpdateRecord ="INSERT INTO tblRecord(tblRecord.role,tblRecord.status,tblRecord.playerID,tblRecord.groupMemberID,tblRecord.gameMatchID)"
+        String sqlUpdateRecord ="INSERT INTO tblRecord(tblRecord.role,tblRecord.status,"
+                + "zoomzoomzozotblRecord.playerID,tblRecord.groupMemberID,tblRecord.gameMatchID)"
                 + "VALUES (?,?,?,?,? )";
         boolean res = true;
         try {
