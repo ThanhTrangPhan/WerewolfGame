@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -87,7 +88,7 @@ public class GroupDAO extends DAO {
         ArrayList<Group> res = new ArrayList<>();
         String sql = "SELECT * FROM tblGroup WHERE tblGroup.name LIKE ?";
         String sql2 = "SELECT tblGroupMember.* FROM tblGroupMember,tblGroup WHERE tblGroup.id = ? "
-                + "AND tblGroup.id=tblGroupMember.groupID";
+                + "AND tblGroup.id=tblGroupMember.GroupID";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + key + "%");
@@ -103,19 +104,20 @@ public class GroupDAO extends DAO {
             }
             for (Group g : res) {
                 ps = conn.prepareStatement(sql2);
-                ps.setInt(2, g.getId());
+                ps.setInt(1, g.getId());
                 rs = ps.executeQuery();
+                List<GroupMember> lg = new ArrayList<>();
                 while (rs.next()) {
                     GroupMember m = new GroupMember();
                     m.setId(rs.getInt("id"));
-                    m.setTimeJoined(rs.getString("tblGroupMember.timeJoined"));
+                    m.setTimeJoined(rs.getString("timeJoined"));
                     
                     Player p = new Player();
-                    p.setId(rs.getInt("tblGroupMember.playerID"));
+                    p.setId(rs.getInt("playerID"));
                     m.setPlayer(p);
-
-                    g.getMember().add(m);
+                    lg.add( m);
                 }
+                g.setMember(lg);
 
             }
 
