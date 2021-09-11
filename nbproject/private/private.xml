@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/View/main.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/RecordDAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/Record.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/GroupMemberDAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/Player.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/GroupDAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/PlayerDAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/DAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Model/GameMatch.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/PlayerStatusDAO.java</file>
+            <file>file:/home/demo/NetBeansProjects/Werewolf_GameProject_1/src/Controller/GameMatchDAO.java</file>
+        </group>
+    </open-files>
+</project-private>
