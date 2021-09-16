@@ -62,7 +62,7 @@ public class PlayerDAO extends DAO {
         }
         return result;
     }
-    
+
     public boolean editInfo(Player player) {
         String sql = "UPDATE tblPlayer SET name=?, password?, phone=?, status=? WHERE id=?";
         try {
@@ -81,7 +81,7 @@ public class PlayerDAO extends DAO {
     }
 
     public boolean register(Player player) {
-        String sql = "INSERT INTO tblplayer(name, password,phone,status) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO tblPlayer(name, password,phone,status) VALUES(?,?,?,?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, player.getName());
@@ -102,7 +102,7 @@ public class PlayerDAO extends DAO {
     }
 
     public boolean addFriend(Player friend, Player friend2) {
-        String sql = "INSERT INTO tblfriendlist(player1,player2) VALUES(?,?)";
+        String sql = "INSERT INTO tblFriendList(player1,player2) VALUES(?,?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             // make sure dont have duplicate data
@@ -111,7 +111,7 @@ public class PlayerDAO extends DAO {
             ps.setInt(2, Integer.max(friend.getId(), friend2.getId()));
 
             ps.executeUpdate();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -120,7 +120,7 @@ public class PlayerDAO extends DAO {
     }
 
     public boolean cancelFriend(Player friend, Player friend2) {
-        String sql = "DELETE FROM tblfriendlist WHERE player1=? AND player2=?";
+        String sql = "DELETE FROM tblFriendList WHERE player1=? AND player2=?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -135,17 +135,28 @@ public class PlayerDAO extends DAO {
         return true;
     }
 
-    public boolean checkLogin(String name, String pass) {
-        String sql = "SELECT * FROM tblplayer WHERE name = ? AND password = ? ";
+    public boolean checkLogin(Player p) {
+        boolean res=false;
+        
+        String sql = "SELECT * FROM tblPlayer WHERE name = ? AND password = ? ";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setString(2, pass);
+            ps.setString(1, p.getName());
+            ps.setString(2, p.getPassword());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                p.setId(rs.getInt("id"));
+                p.setName(rs.getString("name"));
+                p.setPhone(rs.getString("phone"));
+                p.setStatus(rs.getString("status"));
+               
+                res = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-        return true;
+        return res;
     }
 }
