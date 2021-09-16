@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 11, 2021 at 03:13 PM
+-- Generation Time: Sep 16, 2021 at 05:01 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -20,65 +20,91 @@ SET time_zone = "+00:00";
 --
 -- Database: `GameDB`
 --
+CREATE DATABASE IF NOT EXISTS `GameDB` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `GameDB`;
 
 DELIMITER $$
 --
 -- Procedures
 --
+DROP PROCEDURE IF EXISTS `addGroupMember`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addGroupMember` (IN `timeJoined` TEXT, IN `groupId` INT, IN `playerId` INT)  BEGIN
 INSERT INTO tblGroupMember(tblGroupMember.timeJoined,tblGroupMember.GroupID,tblGroupMember.playerID) VALUES (timeJoined, groupId,playerId);
 END$$
 
+DROP PROCEDURE IF EXISTS `cancleMember`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cancleMember` (IN `idMember` INT)  BEGIN
 DELETE FROM tblGroupMember WHERE tblGroupMember.id = idMember;
 END$$
 
+DROP PROCEDURE IF EXISTS `createGroup`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `createGroup` (IN `name` TEXT, IN `founderName` TEXT, IN `timeStarted` DATETIME)  BEGIN
 INSERT INTO tblGroup(tblGroup.name,tblGroup.founderName,tblGroup.timeStarted) VALUES (name, founderName,timeStarted);
 END$$
 
+DROP PROCEDURE IF EXISTS `getMostUsedRole`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostUsedRole` (IN `playerid` INT)  BEGIN
  SELECT tblRecord.role as r, COUNT(*) FROM tblRecord WHERE tblRecord.playerID=playerid GROUP BY r  ORDER BY 2 DESC LIMIT 1 ;
  END$$
 
+DROP PROCEDURE IF EXISTS `getPlayerStatistic`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPlayerStatistic` (IN `playerid` INT)  BEGIN
 SELECT tblPlayer.name, (SELECT COUNT(*) FROM tblRecord WHERE tblPlayer.id = playerid AND tblPlayer.id=tblRecord.playerID) AS totalMatch,(SELECT COUNT(*) FROM tblRecord WHERE tblPlayer.id = playerid AND tblPlayer.id=tblRecord.playerID AND tblRecord.status LIKE 'win') AS totalWin,(SELECT tblRecord.role as roles, COUNT(*) as numberUsed FROM tblRecord WHERE tblRecord.playerID=playerid GROUP BY roles  ORDER BY 2 DESC LIMIT 1) FROM tblPlayer WHERE tblPlayer.id=playerid; 
 END$$
 
+DROP PROCEDURE IF EXISTS `getPlayerStatWin`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPlayerStatWin` (IN `playerid` INT)  BEGIN
 SELECT COUNT(tblRecord.id) FROM tblRecord,tblPlayer WHERE tblPlayer.id = playerid AND tblPlayer.id=tblRecord.playerID AND tblRecord.status LIKE 'win';
 END$$
 
+DROP PROCEDURE IF EXISTS `getTop5`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getTop5` ()  BEGIN
 SELECT tblPlayer.name, (SELECT COUNT(*) FROM tblRecord WHERE tblPlayer.id=tblRecord.playerID) AS totalMatch,(SELECT COUNT(*) FROM tblRecord WHERE tblPlayer.id = playerid AND tblPlayer.id=tblRecord.playerID AND tblRecord.status LIKE 'win') AS totalWin FROM tblPlayer; 
 END$$
 
+DROP PROCEDURE IF EXISTS `getTotalMatch`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getTotalMatch` (IN `playerid` INT)  BEGIN
 SELECT COUNT(tblRecord.id) FROM tblRecord,tblPlayer WHERE tblPlayer.id = playerid AND tblPlayer.id=tblRecord.playerID;
 END$$
 
+DROP PROCEDURE IF EXISTS `searchGroup`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `searchGroup` (IN `keyword` VARCHAR(255))  BEGIN
 SELECT * FROM tblGroup WHERE tblGroup.name LIKE keyword;
 END$$
 
+DROP PROCEDURE IF EXISTS `searchMember`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `searchMember` (IN `keyword` TEXT, IN `gid` INT)  BEGIN
+SELECT tblPlayer.* FROM tblGroupMember,tblPlayer WHERE tblPlayer.name LIKE keyword AND tblGroupMember.GroupID = gid AND tblGroupMember.playerID=tblPlayer.id ;
+END$$
+
+DROP PROCEDURE IF EXISTS `searchPlayer`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `searchPlayer` (IN `nameq` TEXT)  BEGIN 
+SELECT * FROM tblPlayer WHERE tblPlayer.name LIKE nameq;
+END$$
+
+DROP PROCEDURE IF EXISTS `searchRecordBasedOnGroup`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `searchRecordBasedOnGroup` (IN `tgg` INT)  BEGIN
 SELECT tblRecord.* FROM ((tblGroupMember  INNER JOIN tblRecord ON  tblGroupMember.GroupID = tgg AND tblGroupMember.id = tblRecord.groupMemberID)
 INNER JOIN tblPlayer on tblRecord.playerID=tblPlayer.id) ORDER BY tblRecord.id ASC;
                                                                                                        
 end$$
 
+DROP PROCEDURE IF EXISTS `setting`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setting` (IN `maxPlayer` INT, IN `description` TEXT, IN `type` TEXT, IN `gameId` INT)  BEGIN
 UPDATE tblGameMatch SET tblGameMatch.maxPlayer = maxPlayer, tblGameMatch.description=description, tblGameMatch.type=type WHERE tblGameMatch.id = gameId;
 END$$
 
+DROP PROCEDURE IF EXISTS `updateGameMatch`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateGameMatch` (IN `maxPlayer` INT, IN `description` TEXT, IN `type` TEXT, IN `timeStarted` TEXT, IN `timeEnded` TEXT, IN `winnerSide` TEXT)  BEGIN
 INSERT INTO tblGameMatch(tblGameMatch.maxPlayer,tblGameMatch.description,tblGameMatch.type,tblGameMatch.timeStarted,tblGameMatch.timeEnded, tblGameMatch.winnerSide) VALUES (maxPlayer,description,type,timeStarted,timeEnded,winnerSide);
 END$$
 
+DROP PROCEDURE IF EXISTS `updateRecord`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateRecord` (IN `role` INT, IN `stat` INT, IN `playerId` INT, IN `groupMemberID` INT, IN `gameID` INT)  BEGIN
 INSERT INTO tblRecord(tblRecord.role,tblRecord.status,tblRecord.playerID,tblRecord.groupMemberID,tblRecord.gameMatchID) VALUES (role,stat,playerId,groupMemberID,gameID );
 END$$
 
+DROP PROCEDURE IF EXISTS `viewRecordBasedOnMatch`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `viewRecordBasedOnMatch` (IN `keyword` INT)  BEGIN
 SELECT tblRecord.* FROM tblRecord,tblGameMatch WHERE tblRecord.gameMatchID=keyword AND tblRecord.gameMatchID = tblGameMatch.id;
 END$$
@@ -91,6 +117,7 @@ DELIMITER ;
 -- Table structure for table `tblFriendList`
 --
 
+DROP TABLE IF EXISTS `tblFriendList`;
 CREATE TABLE `tblFriendList` (
   `player1` int(11) NOT NULL,
   `player2` int(11) NOT NULL
@@ -112,6 +139,7 @@ INSERT INTO `tblFriendList` (`player1`, `player2`) VALUES
 -- Table structure for table `tblGameMatch`
 --
 
+DROP TABLE IF EXISTS `tblGameMatch`;
 CREATE TABLE `tblGameMatch` (
   `id` int(11) NOT NULL,
   `maxPlayer` int(11) NOT NULL,
@@ -119,17 +147,18 @@ CREATE TABLE `tblGameMatch` (
   `type` varchar(255) NOT NULL,
   `timeStarted` text NOT NULL,
   `timeEnded` text NOT NULL,
-  `winnerSide` text NOT NULL
+  `winnerSide` text NOT NULL,
+  `tournamentId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tblGameMatch`
 --
 
-INSERT INTO `tblGameMatch` (`id`, `maxPlayer`, `description`, `type`, `timeStarted`, `timeEnded`, `winnerSide`) VALUES
-(1, 3, 'Anyone ', 'Random', '2021-09-10 14:32:10', '2021-09-10 14:40:12', 'Villagers'),
-(2, 3, 'Open for everyone', 'Random', '2021-09-10 14:34:54', '2021-09-10 14:59:51', 'Werewolves'),
-(3, 4, 'One time per week', 'Group Match', '2021-09-11 9:21:18', '2021-09-11 9:49:22', 'Villagers');
+INSERT INTO `tblGameMatch` (`id`, `maxPlayer`, `description`, `type`, `timeStarted`, `timeEnded`, `winnerSide`, `tournamentId`) VALUES
+(1, 3, 'Anyone ', 'Random', '2021-09-10 14:32:10', '2021-09-10 14:40:12', 'Villagers', NULL),
+(2, 3, 'Open for everyone', 'Random', '2021-09-10 14:34:54', '2021-09-10 14:59:51', 'Werewolves', NULL),
+(3, 4, 'One time per week', 'Group Match', '2021-09-11 9:21:18', '2021-09-11 9:49:22', 'Villagers', NULL);
 
 -- --------------------------------------------------------
 
@@ -137,6 +166,7 @@ INSERT INTO `tblGameMatch` (`id`, `maxPlayer`, `description`, `type`, `timeStart
 -- Table structure for table `tblGroup`
 --
 
+DROP TABLE IF EXISTS `tblGroup`;
 CREATE TABLE `tblGroup` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -162,6 +192,7 @@ INSERT INTO `tblGroup` (`id`, `name`, `timeStarted`, `founderName`) VALUES
 -- Table structure for table `tblGroupMember`
 --
 
+DROP TABLE IF EXISTS `tblGroupMember`;
 CREATE TABLE `tblGroupMember` (
   `id` int(11) NOT NULL,
   `timeJoined` text NOT NULL,
@@ -185,7 +216,9 @@ INSERT INTO `tblGroupMember` (`id`, `timeJoined`, `GroupID`, `playerID`) VALUES
 (10, '2021-09-11 6:21:18', 1, 7),
 (11, '2021-09-11 12:07:42', 2, 6),
 (12, '2021-09-11T18:47:29.292109', 7, 3),
-(14, '2021-09-11T18:49:29.190719', 9, 8);
+(14, '2021-09-11T18:49:29.190719', 9, 8),
+(15, '2021-09-11T22:51:44.023451', 2, 5),
+(16, '2021-09-11T23:40:39.783392', 2, 5);
 
 -- --------------------------------------------------------
 
@@ -193,6 +226,7 @@ INSERT INTO `tblGroupMember` (`id`, `timeJoined`, `GroupID`, `playerID`) VALUES
 -- Table structure for table `tblPlayer`
 --
 
+DROP TABLE IF EXISTS `tblPlayer`;
 CREATE TABLE `tblPlayer` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -221,6 +255,7 @@ INSERT INTO `tblPlayer` (`id`, `name`, `password`, `phone`, `status`) VALUES
 -- Table structure for table `tblRecord`
 --
 
+DROP TABLE IF EXISTS `tblRecord`;
 CREATE TABLE `tblRecord` (
   `id` int(11) NOT NULL,
   `role` varchar(255) NOT NULL,
@@ -246,6 +281,28 @@ INSERT INTO `tblRecord` (`id`, `role`, `status`, `playerID`, `groupMemberID`, `g
 (9, 'Villager', 'win', 7, 10, 3),
 (10, 'Villagers', 'win', 5, 1, 3);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblTournament`
+--
+
+DROP TABLE IF EXISTS `tblTournament`;
+CREATE TABLE `tblTournament` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `timeStarted` text NOT NULL,
+  `timeEnded` text NOT NULL,
+  `price` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tblTournament`
+--
+
+INSERT INTO `tblTournament` (`id`, `name`, `timeStarted`, `timeEnded`, `price`) VALUES
+(1, 'Summer 2021', '2021-09-01T0:0:0.00', '2021-09-30T23:59:59.00', '200$ per winner');
+
 --
 -- Indexes for dumped tables
 --
@@ -260,7 +317,8 @@ ALTER TABLE `tblFriendList`
 -- Indexes for table `tblGameMatch`
 --
 ALTER TABLE `tblGameMatch`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tournamentId` (`tournamentId`);
 
 --
 -- Indexes for table `tblGroup`
@@ -293,6 +351,12 @@ ALTER TABLE `tblRecord`
   ADD KEY `playerID` (`playerID`);
 
 --
+-- Indexes for table `tblTournament`
+--
+ALTER TABLE `tblTournament`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -312,7 +376,7 @@ ALTER TABLE `tblGroup`
 -- AUTO_INCREMENT for table `tblGroupMember`
 --
 ALTER TABLE `tblGroupMember`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tblPlayer`
@@ -327,6 +391,12 @@ ALTER TABLE `tblRecord`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `tblTournament`
+--
+ALTER TABLE `tblTournament`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -336,6 +406,12 @@ ALTER TABLE `tblRecord`
 ALTER TABLE `tblFriendList`
   ADD CONSTRAINT `tblFriendList_ibfk_1` FOREIGN KEY (`playerID`) REFERENCES `tblPlayer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tblFriendList_ibfk_2` FOREIGN KEY (`FriendID`) REFERENCES `tblPlayer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tblGameMatch`
+--
+ALTER TABLE `tblGameMatch`
+  ADD CONSTRAINT `tblGameMatch_ibfk_1` FOREIGN KEY (`tournamentId`) REFERENCES `tblTournament` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tblGroupMember`
