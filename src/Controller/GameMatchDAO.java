@@ -8,12 +8,10 @@ package Controller;
 import static Controller.DAO.conn;
 import Model.GameMatch;
 import Model.Record;
-import com.mysql.jdbc.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
-import javax.lang.model.util.Types;
 
 
 /**
@@ -80,22 +78,22 @@ public class GameMatchDAO extends DAO {
     }
 
     // setting the game
-    public boolean setting(GameMatch match) {
-        String sql = "{call setting(?,?,?,?)}";
-        try {
-            CallableStatement ps = (CallableStatement) conn.prepareCall(sql);
-            ps.setInt(1, match.getMaxPlayer());
-            ps.setString(2, match.getDescription());
-            ps.setString(3, match.getType());
-            ps.setInt(4, match.getId());
-
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
+//    public boolean setting(GameMatch match) {
+//        String sql = "{call setting(?,?,?,?)}";
+//        try {
+//            CallableStatement ps = (CallableStatement) conn.prepareCall(sql);
+//            ps.setInt(1, match.getMaxPlayer());
+//            ps.setString(2, match.getDescription());
+//            ps.setString(3, match.getType());
+//            ps.setInt(4, match.getId());
+//
+//            ps.executeUpdate();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//        return true;
+//    }
 
     // Search the match based on the name 
     public ArrayList<GameMatch> searchMatch(String key) {
