@@ -21,7 +21,7 @@ public class Group implements  Serializable{
     public Group(){
         
     }
-
+    
     public Group(int id, String name, String timeStarted, String founderName, List<GroupMember> member) {
         this.id = id;
         this.name = name;
