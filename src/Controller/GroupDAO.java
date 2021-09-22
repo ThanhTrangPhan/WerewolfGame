@@ -61,13 +61,54 @@ public class GroupDAO extends DAO {
     }
 
     
+    public ArrayList<Group> searchAllGroup() {
+        ArrayList<Group> res = new ArrayList<>();
+        String sql = "SELECT * FROM tblGroup ";
+        String sql2 = "SELECT tblGroupMember.*,tblPlayer.* FROM tblPlayer,tblGroupMember,tblGroup WHERE tblGroup.id = ? "
+                + "AND tblGroup.id=tblGroupMember.GroupID AND tblGroupMember.playerID=tblPlayer.id";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
+            while (rs.next()) {
+                Group group = new Group();
+                group.setId(rs.getInt("id"));
+                group.setName(rs.getString("name"));
+                group.setFounderName(rs.getString("founderName"));
+                group.setTimeStarted(rs.getString("timeStarted"));
+                res.add(group);
+            }
+            for (Group g : res) {
+                ps = conn.prepareStatement(sql2);
+                ps.setInt(1, g.getId());
+                rs = ps.executeQuery();
+                List<GroupMember> lg = new ArrayList<>();
+                while (rs.next()) {
+                    GroupMember m = new GroupMember();
+                    m.setId(rs.getInt("id"));
+                    m.setTimeJoined(rs.getString("timeJoined"));
+                    
+                    Player p = new Player();
+                    p.setId(rs.getInt("tblPlayer.id"));
+                    p.setName(rs.getString("tblPlayer.name"));
+                    m.setPlayer(p);
+                    lg.add( m);
+                }
+                g.setMember(lg);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
     //search a group 
     public ArrayList<Group> searchGroup(String key) {
         ArrayList<Group> res = new ArrayList<>();
         String sql = "SELECT * FROM tblGroup WHERE tblGroup.name LIKE ?";
-        String sql2 = "SELECT tblGroupMember.* FROM tblGroupMember,tblGroup WHERE tblGroup.id = ? "
-                + "AND tblGroup.id=tblGroupMember.GroupID";
+        String sql2 = "SELECT tblGroupMember.*,tblPlayer.* FROM tblPlayer,tblGroupMember,tblGroup WHERE tblGroup.id = ? "
+                + "AND tblGroup.id=tblGroupMember.GroupID AND tblGroupMember.playerID=tblPlayer.id";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + key + "%");
@@ -92,7 +133,8 @@ public class GroupDAO extends DAO {
                     m.setTimeJoined(rs.getString("timeJoined"));
                     
                     Player p = new Player();
-                    p.setId(rs.getInt("playerID"));
+                    p.setId(rs.getInt("tblPlayer.id"));
+                    p.setName(rs.getString("tblPlayer.name"));
                     m.setPlayer(p);
                     lg.add( m);
                 }
@@ -105,7 +147,49 @@ public class GroupDAO extends DAO {
         }
         return res;
     }
-    
+    public ArrayList<Group> searchGroupJoined(int id) {
+        ArrayList<Group> res = new ArrayList<>();
+        String sql = "SELECT * FROM tblGroup,tblGroupMember WHERE tblGroupMember.playerID = ? AND tblGroupMember.GroupID = tblGroup.id";
+        String sql2 = "SELECT tblGroupMember.*,tblPlayer.* FROM tblPlayer,tblGroupMember,tblGroup WHERE tblGroup.id = ? "
+                + "AND tblGroup.id=tblGroupMember.GroupID AND tblGroupMember.playerID=tblPlayer.id";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Group group = new Group();
+                group.setId(rs.getInt("tblGroup.id"));
+                group.setName(rs.getString("tblGroup.name"));
+                group.setFounderName(rs.getString("tblGroup.founderName"));
+                group.setTimeStarted(rs.getString("tblGroup.timeStarted"));
+                res.add(group);
+            }
+            for (Group g : res) {
+                ps = conn.prepareStatement(sql2);
+                ps.setInt(1, g.getId());
+                rs = ps.executeQuery();
+                List<GroupMember> lg = new ArrayList<>();
+                while (rs.next()) {
+                    GroupMember m = new GroupMember();
+                    m.setId(rs.getInt("tblGroupMember.id"));
+                    m.setTimeJoined(rs.getString("tblGroupMember.timeJoined"));
+                    
+                    Player p = new Player();
+                    p.setId(rs.getInt("tblPlayer.id"));
+                    p.setName(rs.getString("tblPlayer.name"));
+                    m.setPlayer(p);
+                    lg.add( m);
+                }
+                g.setMember(lg);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    } 
     public boolean cancleMember(GroupMember member) {
         String sql = "DELETE FROM tblGroupMember WHERE tblGroupMember.id = ?";
         try {
