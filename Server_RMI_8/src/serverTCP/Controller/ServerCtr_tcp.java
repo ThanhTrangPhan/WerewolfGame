@@ -183,14 +183,18 @@ public class ServerCtr_tcp extends ClientCtr {
         listUpdate.clear();
 
         // delete participant that logged out
-        if( roomID.equals("")) return;
+        if (roomID.equals("")) {
+            return;
+        }
         for (Player players : listParticipantInARoom.get(roomID)) {
             if (players.getId() == sender.getId()) {
                 listParticipantInARoom.get(roomID).remove(players);
                 break;
             }
         }
-        if(listParticipantInARoom.get(roomID).isEmpty()) return;
+        if (listParticipantInARoom.get(roomID).isEmpty()) {
+            return;
+        }
         for (Player players : listParticipantInARoom.get(roomID)) {
             int n = playerOnline.get(players.getId());
             System.out.println(players.getName());
@@ -328,6 +332,11 @@ public class ServerCtr_tcp extends ClientCtr {
                                 System.out.println(id);
                                 Player player = searchPlayers(id);
                                 oos.writeObject(new ObjectWrapper(ObjectWrapper.REPLY_SEARCH_PLAYER_ID, player));
+                                break;
+                            case ObjectWrapper.SEARCH_PLAYER_NAME:
+                                String key = (String) data.getData();
+                                List<Player> listPlayers = searchPlayers(key);
+                                oos.writeObject(new ObjectWrapper(ObjectWrapper.REPLY_SEARCH_PLAYER_NAME, listPlayers));
                                 break;
 
                             case ObjectWrapper.STATISTIC:
