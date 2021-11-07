@@ -19,9 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -42,6 +40,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
     private GroupMember member;
     private int rank, first = 1;
     private LinkedHashMap<Player, PlayerStat> scoreboard;
+    private LinkedHashMap<Player, Integer> scoreboard_Rank;
     private HashMap<Player, String> friendRequest;
     private String roomID = "";
     private List<Player> participant;
@@ -105,7 +104,6 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         friendOff = new javax.swing.JList<>();
-        jScrollPane10 = new javax.swing.JScrollPane();
         jScrollPane7 = new javax.swing.JScrollPane();
         friendList = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
@@ -119,14 +117,14 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         groupMatch = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblMember = new javax.swing.JTable();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         globalScore = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tblFriendRequest = new javax.swing.JTable();
@@ -222,8 +220,6 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         });
         jScrollPane7.setViewportView(friendList);
 
-        jScrollPane10.setViewportView(jScrollPane7);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -231,17 +227,24 @@ public class PlayerMainFrm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane10)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 115, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(23, 23, 23)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(92, 92, 92))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +255,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                                     .addComponent(jLabel11)
                                     .addComponent(jLabel9)
                                     .addComponent(jLabel15))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 204, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12)
                                     .addComponent(jLabel13)
@@ -261,7 +264,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                                     .addComponent(jLabel21)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(invite)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
                                 .addComponent(cancleFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(223, 223, 223))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -278,7 +281,6 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -293,12 +295,16 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(jLabel12))
                         .addGap(146, 146, 146))
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(57, 57, 57)
                         .addComponent(jLabel4)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
@@ -312,9 +318,12 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                                 .addGap(91, 91, 91)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(invite)
-                                    .addComponent(cancleFriend)))
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(80, Short.MAX_VALUE))))
+                                    .addComponent(cancleFriend))
+                                .addContainerGap(92, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
 
         jTabbedPane2.addTab("Info", jPanel1);
@@ -376,19 +385,6 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(tblMember);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -412,20 +408,15 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
                     .addComponent(jScrollPane4))
                 .addContainerGap())
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 941, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(170, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
@@ -433,17 +424,16 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton4)
-                            .addComponent(jButton3))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton3)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addGap(36, 36, 36)
                         .addComponent(groupMatch))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(256, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Group", jPanel3);
@@ -470,6 +460,13 @@ public class PlayerMainFrm extends javax.swing.JFrame {
 
         jLabel17.setText("Loading ...");
 
+        jButton5.setText("Search");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -484,7 +481,11 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(26, 26, 26)
-                        .addComponent(jLabel17)))
+                        .addComponent(jLabel17)
+                        .addGap(138, 138, 138)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(jButton5)))
                 .addContainerGap(252, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -493,12 +494,14 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17))
+                    .addComponent(jLabel17)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addContainerGap(245, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Global Scoreboard", jPanel2);
@@ -560,7 +563,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -612,7 +615,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Match request", jPanel5);
@@ -683,7 +686,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Play game now!", jPanel6);
@@ -692,13 +695,16 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane2)
+                .addGap(409, 409, 409))
         );
 
         pack();
@@ -770,8 +776,8 @@ public class PlayerMainFrm extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         int row = tblGroup.getSelectedRow();
-        for(GroupMember gm : listGroup.get(row).getMember() ){
-            if(gm.getPlayer().getId() == player.getId()){
+        for (GroupMember gm : listGroup.get(row).getMember()) {
+            if (gm.getPlayer().getId() == player.getId()) {
                 myctrl.sendData(new ObjectWrapper(ObjectWrapper.CANCLE_MEMBER, gm));
                 break;
             }
@@ -949,7 +955,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
                 myctrl.sendData(new ObjectWrapper(ObjectWrapper.QUIT_OLD_ROOM, arr));
             }
             roomID = match_roomID;
-            System.out.println("row is " +row);
+            System.out.println("row is " + row);
             myctrl.sendData(new ObjectWrapper(ObjectWrapper.ACCEPT_MATCH_REQUEST, listMatchRequest.get(row)));
             listMatchRequest.remove(row);
         } else if (x == 1) {
@@ -966,6 +972,16 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
         myctrl.sendData(new ObjectWrapper(ObjectWrapper.START_GAME, roomID));
     }//GEN-LAST:event_btnStartActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        if (!txtSearch.getText().isBlank()) {
+            String key = txtSearch.getText().trim();
+            myctrl.sendData(new ObjectWrapper(ObjectWrapper.SEARCH_PLAYER_NAME, key));
+        } else {
+            updateScoreboard();
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1024,6 +1040,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1053,8 +1070,6 @@ public class PlayerMainFrm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1065,13 +1080,13 @@ public class PlayerMainFrm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable tblFriendRequest;
     private javax.swing.JTable tblGroup;
     private javax.swing.JTable tblMatchRequest;
     private javax.swing.JTable tblMember;
     private javax.swing.JTable tblParticipant;
     private javax.swing.JTextField txtRoomID;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
     // update the friend list
@@ -1421,6 +1436,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         for (Map.Entry<Player, PlayerStat> e : scoreboard.entrySet()) {
             Player ep = e.getKey();
             PlayerStat eps = e.getValue();
+            scoreboard_Rank.put(ep, k);
             value[i][0] = String.valueOf(k);
             value[i][1] = String.valueOf(ep.getId());
             value[i][2] = ep.getName();
@@ -1489,7 +1505,15 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         };
         tblParticipant.setModel(tableModel);
     }
-
+    
+    private Player checkPlayer(Player player){
+        for(Player pl : scoreboard.keySet()){
+            if(pl.getId() == player.getId()){
+                return pl;
+            }
+        }
+        return player;
+    }
     private void init() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         playerOnline = new LinkedHashMap<>();
@@ -1500,6 +1524,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         friendRequest = new HashMap<>();
         listMatchRequest = new ArrayList<>();
         participant = new ArrayList<>();
+        scoreboard_Rank = new LinkedHashMap<>();
         myctrl.getActiveFunction().add(new ObjectWrapper(ObjectWrapper.REPLY_FRIEND_LIST, this));
         myctrl.getActiveFunction().add(new ObjectWrapper(ObjectWrapper.PLAYER_ONLINE, this));
         myctrl.getActiveFunction().add(new ObjectWrapper(ObjectWrapper.REPLY_STATISTIC, this));
@@ -1520,6 +1545,7 @@ public class PlayerMainFrm extends javax.swing.JFrame {
         myctrl.getActiveFunction().add(new ObjectWrapper(ObjectWrapper.REPLY_START_GAME, this));
         myctrl.getActiveFunction().add(new ObjectWrapper(ObjectWrapper.RECEIVE_SIGNAL, this));
         myctrl.getActiveFunction().add(new ObjectWrapper(ObjectWrapper.REMOVE_MATCH_REQUEST, this));
+        myctrl.getActiveFunction().add(new ObjectWrapper(ObjectWrapper.REPLY_SEARCH_PLAYER_NAME, this));
         myctrl.sendData(new ObjectWrapper(ObjectWrapper.FRIEND_LIST, player.getId()));
         //myctrl.sendData(new ObjectWrapper(ObjectWrapper.PLAYER_ONLINE, null));
         myctrl.sendData(new ObjectWrapper(ObjectWrapper.STATISTIC, chosenPlayer.getId()));
@@ -1531,6 +1557,44 @@ public class PlayerMainFrm extends javax.swing.JFrame {
 
     public void receivedDataProcessingStartGame(ObjectWrapper data) {
 
+    }
+
+    public void receivedDataProcessingSearchPlayerByName(ObjectWrapper data) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (data.getData() instanceof List) {
+            List<Player> listSearchPlayers = (List) data.getData();
+            System.out.println(listSearchPlayers.size());
+            if(listSearchPlayers.isEmpty()) return;
+            String[] columnNames = {"Rank", "ID", "Name", "Total Match", "Win rate", "Online/Offline"};
+            String[][] value = new String[scoreboard.size()][columnNames.length];
+            int i = 0;
+            
+            for (Player pe :listSearchPlayers) { 
+                Player e = checkPlayer(pe);
+                boolean ok = scoreboard.containsKey(e);
+                if(!ok) continue;
+                value[i][0] = String.valueOf(scoreboard_Rank.get(e));
+                value[i][1] = String.valueOf(e.getId());
+                value[i][2] = e.getName();
+                value[i][3] = String.valueOf(scoreboard.get(e).getTotalGameMatch());
+                value[i][4] = String.valueOf(scoreboard.get(e).getWinrate());
+                if (playerOnline.containsKey(e.getId())) {
+                    value[i][5] = "Online";
+                } else {
+                    value[i][5] = "Offline";
+                }
+                ++i;
+            }
+            DefaultTableModel tableModel = new DefaultTableModel(value, columnNames) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    //unable to edit cells
+                    return false;
+                }
+            };
+            globalScore.setModel(tableModel);
+
+        }
     }
 
 }

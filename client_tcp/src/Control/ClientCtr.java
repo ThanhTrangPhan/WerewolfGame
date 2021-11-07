@@ -217,6 +217,10 @@ public class ClientCtr {
                                             pmf = (PlayerMainFrm) myFunction.get(i).getData();
                                             pmf.receivedDataProcessingRemoveMatchRequest(data);
                                             break;
+                                        case ObjectWrapper.REPLY_SEARCH_PLAYER_NAME:
+                                            pmf = (PlayerMainFrm) myFunction.get(i).getData();
+                                            pmf.receivedDataProcessingSearchPlayerByName(data);
+                                            break;
 
                                     }
                                 }
