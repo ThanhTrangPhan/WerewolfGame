@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Werewolf_GameProject_Debug">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/Werewolf_GameProject_Debug.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

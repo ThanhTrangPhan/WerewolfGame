@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"client_rmi","l":"ClientCtr"},{"p":"server_rmi","l":"DispatcherInterface"},{"p":"client_rmi","l":"LoginFrm"},{"p":"client_rmi","l":"PlayerMainFrm"},{"p":"server_rmi","l":"playerRecord"},{"p":"client_rmi","l":"ReceiverInterface"},{"p":"server_rmi","l":"ServerCtr"},{"p":"server_rmi","l":"ServerMainFrm"}]
