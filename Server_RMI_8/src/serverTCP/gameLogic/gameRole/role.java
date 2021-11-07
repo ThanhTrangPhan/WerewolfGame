@@ -1,4 +1,4 @@
-package role;
+package serverTCP.gameLogic.gameRole;
 
 
 import java.io.Serializable;

@@ -5,17 +5,26 @@
  */
 package serverTCP.gameLogic.gameRole;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author demo
  */
-public class Villager implements role{
-    private static final String NAME = "Villager";
+public class Huntsman implements role {
+    private static final String NAME = "Huntsman";
+    private int chosenPlayer;
+    private int huntsman;
 
+    public Huntsman() {
+    }
+    
+    
+    
     public static String getNAME() {
         return NAME;
     }
+    public void choosePlayer(int playerId){
+        chosenPlayer = playerId;
+    }
+    
+    
 }
